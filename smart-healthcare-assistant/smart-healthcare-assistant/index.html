@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulse — Smart Healthcare Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 24" width="34" height="20">
+        <polyline points="0,12 10,12 14,3 18,21 22,8 25,12 40,12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Pulse</span>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-item is-active" data-view="dashboard">
+        <span class="nav-label">Dashboard</span>
+      </button>
+      <button class="nav-item" data-view="symptoms">
+        <span class="nav-label">Symptom Checker</span>
+      </button>
+      <button class="nav-item" data-view="appointments">
+        <span class="nav-label">Appointments</span>
+      </button>
+      <button class="nav-item" data-view="medications">
+        <span class="nav-label">Medications</span>
+      </button>
+      <button class="nav-item" data-view="chat">
+        <span class="nav-label">Health Chat</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <p>Not a substitute for professional medical care.</p>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+
+    <!-- ---------- DASHBOARD ---------- -->
+    <section class="view is-active" id="view-dashboard">
+      <header class="page-head">
+        <div>
+          <p class="eyebrow">Today</p>
+          <h1 id="greeting">Good morning, Alex</h1>
+        </div>
+        <svg class="ecg" viewBox="0 0 400 60" preserveAspectRatio="none">
+          <path class="ecg-path" d="M0,30 L60,30 L75,10 L90,50 L105,30 L140,30 L150,20 L160,40 L170,30 L400,30"
+                fill="none" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </header>
+
+      <div class="vitals-grid">
+        <div class="vital-card">
+          <p class="vital-label">Heart rate</p>
+          <p class="vital-value">72 <span>bpm</span></p>
+        </div>
+        <div class="vital-card">
+          <p class="vital-label">Steps today</p>
+          <p class="vital-value">4,812 <span>steps</span></p>
+        </div>
+        <div class="vital-card">
+          <p class="vital-label">Sleep last night</p>
+          <p class="vital-value">7.2 <span>hrs</span></p>
+        </div>
+        <div class="vital-card">
+          <p class="vital-label">Water intake</p>
+          <p class="vital-value">1.4 <span>L</span></p>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="panel">
+          <h2>Next appointment</h2>
+          <div id="dash-next-appt" class="empty-state">No appointments scheduled yet.</div>
+        </div>
+        <div class="panel">
+          <h2>Medications due today</h2>
+          <div id="dash-meds" class="empty-state">No medications added yet.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- SYMPTOM CHECKER ---------- -->
+    <section class="view" id="view-symptoms">
+      <header class="page-head">
+        <div>
+          <p class="eyebrow">Assessment</p>
+          <h1>Symptom Checker</h1>
+        </div>
+      </header>
+
+      <p class="section-intro">Select what you're experiencing. This gives a general sense of urgency only — it does not diagnose any condition.</p>
+
+      <form id="symptom-form" class="symptom-grid">
+        <label class="check-tile"><input type="checkbox" value="fever"><span>Fever</span></label>
+        <label class="check-tile"><input type="checkbox" value="cough"><span>Cough</span></label>
+        <label class="check-tile"><input type="checkbox" value="headache"><span>Headache</span></label>
+        <label class="check-tile"><input type="checkbox" value="fatigue"><span>Fatigue</span></label>
+        <label class="check-tile"><input type="checkbox" value="soreThroat"><span>Sore throat</span></label>
+        <label class="check-tile"><input type="checkbox" value="nausea"><span>Nausea</span></label>
+        <label class="check-tile"><input type="checkbox" value="shortnessOfBreath"><span>Shortness of breath</span></label>
+        <label class="check-tile"><input type="checkbox" value="chestPain"><span>Chest pain</span></label>
+        <label class="check-tile"><input type="checkbox" value="dizziness"><span>Dizziness</span></label>
+        <label class="check-tile"><input type="checkbox" value="rash"><span>Rash</span></label>
+        <label class="check-tile"><input type="checkbox" value="jointPain"><span>Joint pain</span></label>
+        <label class="check-tile"><input type="checkbox" value="lossOfAppetite"><span>Loss of appetite</span></label>
+      </form>
+
+      <button type="button" class="btn btn-primary" id="check-symptoms-btn">Check symptoms</button>
+
+      <div id="symptom-result" class="result-card" hidden></div>
+    </section>
+
+    <!-- ---------- APPOINTMENTS ---------- -->
+    <section class="view" id="view-appointments">
+      <header class="page-head">
+        <div>
+          <p class="eyebrow">Care schedule</p>
+          <h1>Appointments</h1>
+        </div>
+      </header>
+
+      <form id="appt-form" class="stack-form">
+        <div class="field-row">
+          <label>Doctor / clinic
+            <input type="text" id="appt-doctor" placeholder="Dr. Rao — General Physician" required>
+          </label>
+          <label>Reason for visit
+            <input type="text" id="appt-reason" placeholder="Annual check-up" required>
+          </label>
+        </div>
+        <div class="field-row">
+          <label>Date
+            <input type="date" id="appt-date" required>
+          </label>
+          <label>Time
+            <input type="time" id="appt-time" required>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Add appointment</button>
+      </form>
+
+      <ul id="appt-list" class="entry-list"></ul>
+    </section>
+
+    <!-- ---------- MEDICATIONS ---------- -->
+    <section class="view" id="view-medications">
+      <header class="page-head">
+        <div>
+          <p class="eyebrow">Daily routine</p>
+          <h1>Medications</h1>
+        </div>
+      </header>
+
+      <form id="med-form" class="stack-form">
+        <div class="field-row">
+          <label>Medication
+            <input type="text" id="med-name" placeholder="Metformin" required>
+          </label>
+          <label>Dosage
+            <input type="text" id="med-dosage" placeholder="500 mg" required>
+          </label>
+        </div>
+        <div class="field-row">
+          <label>Time to take
+            <input type="time" id="med-time" required>
+          </label>
+          <label>Frequency
+            <select id="med-frequency">
+              <option value="Once daily">Once daily</option>
+              <option value="Twice daily">Twice daily</option>
+              <option value="Three times daily">Three times daily</option>
+              <option value="As needed">As needed</option>
+            </select>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Add medication</button>
+      </form>
+
+      <ul id="med-list" class="entry-list"></ul>
+    </section>
+
+    <!-- ---------- HEALTH CHAT ---------- -->
+    <section class="view" id="view-chat">
+      <header class="page-head">
+        <div>
+          <p class="eyebrow">Ask something</p>
+          <h1>Health Chat</h1>
+        </div>
+      </header>
+
+      <p class="section-intro">A lightweight, rule-based assistant for general wellness questions. Swap in a real model via the Anthropic API — see <code>script.js</code> for the hook.</p>
+
+      <div class="chat-window" id="chat-window">
+        <div class="chat-bubble bot">Hi, I'm Pulse. Ask me about symptoms, sleep, hydration, or medication reminders.</div>
+      </div>
+
+      <form id="chat-form" class="chat-input-row">
+        <input type="text" id="chat-input" placeholder="Type a health question…" autocomplete="off">
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+    </section>
+
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
